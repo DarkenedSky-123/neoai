@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>A.I. Image Generation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0C090A; /* Night */
+      color: #d000ff; /* Bright Green */
+    }
+    
+    .content {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #d000ff; /* Bright Green */
+    }
+
+    .content h1 {
+      text-align: center;
+      color: rgb(61, 0, 136); /* Dark Green */
+    }
+    
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .logo img {
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      border: 2px solid #d000ff; /* Bright Green */
+    }
+
+    .earning-card {
+      border: 1px solid #333333;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #1C1B1B;
+    }
+
+    .earning-card:first-child {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .earning-card h2 {
+      margin-top: 0;
+    }
+
+    .earning-card p {
+      margin-bottom: 10px;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .input-group input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .input-group input[type="text"]::placeholder {
+      color: #999999;
+    }
+
+    .input-group button {
+      background-color: #333333;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .input-group button:hover {
+      background-color: #555555;
+    }
+
+    .download-button {
+      display: none;
+      margin: 10px auto;
+      display: block;
+      width: 150px;
+      background-color: #333333;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .download-button:hover {
+      background-color: #555555;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="logo">
+      <img src="https://cdn.leonardo.ai/users/7ec2e7d7-2982-4389-ac0c-cc56db04bdd4/generations/98eeac17-71ec-4630-b47f-84e9c1044776/variations/Default_The_letter_N_depicted_as_a_coalescence_of_dark_purple_0_98eeac17-71ec-4630-b47f-84e9c1044776_1.jpg" alt="Logo Image">
+    </div>
+    <h1>A.I. Image Generation</h1>
+    <div class="earning-card">
+      <h2>Neo-Images</h2>
+      <div class="input-group">
+        <input type="text" id="prompt-input" placeholder="Enter Prompt">
+        <button onclick="displayImage()">Display Image</button>
+      </div>
+      <div id="image-container"></div>
+      <button class="download-button" onclick="downloadImage()" style="display: none;">Download Image</button>
+    </div>
+  </div>
+  <script>
+    function completeTask(taskId) {
+      // Perform necessary actions when a task is completed
+      // You can modify this function to fit your requirements
+      alert("Task " + taskId + " completed!");
+    }
+    
+    function displayImage() {
+      const prompt = document.getElementById('prompt-input').value;
+      
+      if (prompt) {
+        const imageUrl = `https://image.pollinations.ai/prompt/${prompt}.png`;
+        const imageContainer = document.getElementById('image-container');
+        
+        const cloudName = 'dahr8texe'; // Replace with your Cloudinary cloud name
+        const croppedImageUrl = `https://res.cloudinary.com/${cloudName}/image/fetch/c_crop,h_304,w_512/${encodeURIComponent(imageUrl)}`;
+        
+        const imageElement = document.createElement('img');
+        imageElement.src = croppedImageUrl;
+        imageElement.alt = 'Task Image';
+        
+        imageContainer.innerHTML = '';
+        imageContainer.appendChild(imageElement);
+        
+        const downloadButton = document.querySelector('.download-button');
+        downloadButton.style.display = 'block';
+      } else {
+        alert('Please enter a prompt.');
+      }
+    }
+    
+    function downloadImage() {
+  const prompt = document.getElementById('prompt-input').value;
+
+  if (prompt) {
+    const imageUrl = `https://image.pollinations.ai/prompt/${prompt}.png`;
+    const cloudName = 'dahr8texe'; // Replace with your Cloudinary cloud name
+    const croppedImageUrl = `https://res.cloudinary.com/${cloudName}/image/fetch/c_crop,h_304,w_512/${encodeURIComponent(imageUrl)}`;
+
+    fetch(croppedImageUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `image_${prompt}.png`;
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      });
+  } else {
+    alert('Please enter a prompt.');
+  }
+}
+
+  </script>
+</body>
+</html>
